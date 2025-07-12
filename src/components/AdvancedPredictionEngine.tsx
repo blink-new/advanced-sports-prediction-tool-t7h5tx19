@@ -91,16 +91,6 @@ export function AdvancedPredictionEngine({ sport, onPredictionComplete, user }: 
     try {
       await simulateAdvancedAnalysis()
       
-      // Fetch comprehensive real-time data using our advanced service
-      const sportsData = await SportsDataService.getComprehensiveSportsData(
-        sport,
-        homeTeam.trim(),
-        awayTeam.trim(),
-        league.trim(),
-        venue.trim(),
-        matchDate
-      )
-      
       // Generate comprehensive prediction using real data
       const prediction = await generateAdvancedPrediction({
         sport,

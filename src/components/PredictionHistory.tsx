@@ -243,7 +243,9 @@ export function PredictionHistory({ predictions, onRefresh }: PredictionHistoryP
                   <div className="text-center">
                     <p className="text-sm text-gray-500 mb-1">Confidence</p>
                     <div className="text-xl font-bold text-gray-900">
-                      {prediction.confidence_percentage.toFixed(1)}%
+                      {typeof prediction.confidence_percentage === 'number' && !isNaN(prediction.confidence_percentage)
+                        ? prediction.confidence_percentage.toFixed(1) + '%'
+                        : 'N/A'}
                     </div>
                     <Badge 
                       variant={prediction.confidence_percentage >= 70 ? 'default' : 'secondary'}

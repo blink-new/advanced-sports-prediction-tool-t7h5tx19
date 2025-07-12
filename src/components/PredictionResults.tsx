@@ -112,7 +112,7 @@ export function PredictionResults({ prediction, sport }: PredictionResultsProps)
       {/* Confidence Score */}
       <Card className="p-6">
         <div className="flex items-center space-x-3 mb-4">
-          <ConfidenceIcon className={`w-6 h-6 ${getConfidenceColor(prediction.confidence_percentage)}`} />
+          <ConfidenceIcon className={`w-6 h-6 ${getConfidenceColor(Number(prediction.confidence_percentage))}`} />
           <h3 className="text-lg font-semibold text-gray-900">Confidence Analysis</h3>
         </div>
         
@@ -120,12 +120,14 @@ export function PredictionResults({ prediction, sport }: PredictionResultsProps)
           <div>
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm font-medium text-gray-700">Prediction Confidence</span>
-              <span className={`text-lg font-bold ${getConfidenceColor(prediction.confidence_percentage)}`}>
-                {prediction.confidence_percentage.toFixed(1)}%
+              <span className={`text-lg font-bold ${getConfidenceColor(Number(prediction.confidence_percentage))}`}>
+                {typeof prediction.confidence_percentage === 'number' && !isNaN(prediction.confidence_percentage)
+                  ? prediction.confidence_percentage.toFixed(1) + '%'
+                  : 'N/A'}
               </span>
             </div>
             <Progress 
-              value={prediction.confidence_percentage} 
+              value={typeof prediction.confidence_percentage === 'number' && !isNaN(prediction.confidence_percentage) ? prediction.confidence_percentage : 0} 
               className="h-3 bg-gray-200"
             />
           </div>
@@ -133,10 +135,10 @@ export function PredictionResults({ prediction, sport }: PredictionResultsProps)
           <div className="flex items-center justify-between text-sm">
             <span className="text-gray-500">Risk Level</span>
             <Badge 
-              variant={prediction.confidence_percentage >= 70 ? 'default' : 'destructive'}
-              className={prediction.confidence_percentage >= 70 ? 'bg-green-500' : ''}
+              variant={Number(prediction.confidence_percentage) >= 70 ? 'default' : 'destructive'}
+              className={Number(prediction.confidence_percentage) >= 70 ? 'bg-green-500' : ''}
             >
-              {prediction.confidence_percentage >= 70 ? 'Low Risk' : 'High Risk'}
+              {Number(prediction.confidence_percentage) >= 70 ? 'Low Risk' : 'High Risk'}
             </Badge>
           </div>
         </div>
